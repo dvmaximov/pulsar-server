@@ -1,6 +1,8 @@
 # compiled output
 /dist
 /node_modules
+pulsar-server.s3db
+package-lock.json
 
 # Logs
 logs

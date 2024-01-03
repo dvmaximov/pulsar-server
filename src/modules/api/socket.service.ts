@@ -1,0 +1,104 @@
+/* eslint-disable prettier/prettier */
+import { Server, Socket } from 'socket.io';
+import {
+  WebSocketGateway,
+  WebSocketServer,
+  SubscribeMessage,
+  OnGatewayDisconnect,
+} from '@nestjs/websockets';
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from '../../shared/models/socket.interface';
+
+import { Message } from '../../shared/models/socket.interface';
+import { WorkstationsService } from '../workstations/workstations.service';
+import { Inject, forwardRef } from '@nestjs/common';
+
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
+export class SocketService implements OnGatewayDisconnect {
+  @WebSocketServer()
+  private server: Server = new Server<
+    ServerToClientEvents,
+    ClientToServerEvents
+  >();
+
+  constructor(
+    @Inject(forwardRef(() => WorkstationsService))
+    private readonly workstationService: WorkstationsService,
+  ) {}
+
+  @SubscribeMessage('registration')
+  async registration(client: Socket, data: Message): Promise<Message> {
+    client.join(data.station.stationName);
+    const answer = {
+      worstation: this.workstationService.createWorkstation(
+        data.station.stationName,
+        client.id,
+        data.station.stationType,
+      ),
+    };
+    this.server.sockets
+      .to(data.station.stationName)
+      .emit('registration', answer);
+    this.updateWorkstations();
+
+    return data;
+  }
+
+  private updateWorkstations() {
+    const stations = this.workstationService.getWorkstations().result;
+    for (const station of stations) {
+      this.emit(station.name, 'updateWorkstations');
+    }    
+  }
+
+  @SubscribeMessage('getStationSettings')
+  async getStationSettings(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.receiver.name, 'getStationSettings', data)
+    return data;
+  }
+
+  @SubscribeMessage('stationSettings')
+  async stationSettings(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationSettings', data)
+    return data;
+  }
+
+  @SubscribeMessage('getStationTasks')
+  async getStationTasks(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.receiver.name, 'getStationTasks', data)
+    return data;
+  }
+
+  @SubscribeMessage('stationTasks')
+  async stationTasks(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationTasks', data)
+    return data;
+  }
+
+  @SubscribeMessage('getStationWorks')
+  async getStationWorks(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.receiver.name, 'getStationWorks', data)
+    return data;
+  }
+
+  @SubscribeMessage('stationWorks')
+  async stationWorks(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationWorks', data)
+    return data;
+  }
+
+  async handleDisconnect(socket: Socket): Promise<void> {
+    this.workstationService.removeWorkstation(socket.id);
+    this.updateWorkstations();
+  }
+
+  async emit(to: string, event: string, payload = {}): Promise<void> {
+    this.server.sockets.to(to).emit(event, payload);
+  }
+}
