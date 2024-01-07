@@ -18,4 +18,16 @@ export class ProgramsService {
   async insert(record: Program): Promise<ApiResult> {
     return await this.api.insert('programs', record);
   }
+
+  async update(record: Program): Promise<ApiResult> {
+    return await this.api.update('programs', record);
+  }
+
+  async remove(id: number): Promise<ApiResult> {
+    const result = await this.api.remove('programs', id);
+    if (result.error) {
+      result.error = 'Ошибка удаления записи на сервере.';
+    }
+    return result;
+  }
 }

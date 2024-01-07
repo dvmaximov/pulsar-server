@@ -98,6 +98,11 @@ export class SocketService implements OnGatewayDisconnect {
     this.emit(data.receiver.name, 'updateStationTask', data)
   }
 
+  @SubscribeMessage('moveStationTask')
+  async moveStationTask(client: Socket, data: Message) {
+    this.emit(data.receiver.name, 'moveStationTask', data)
+  }
+
   @SubscribeMessage('stationTasks')
   async stationTasks(client: Socket, data: Message) {
     this.emit(data.message['station'].stationName, 'stationTasks', data)
@@ -111,6 +116,12 @@ export class SocketService implements OnGatewayDisconnect {
   @SubscribeMessage('stationTaskUpdated')
   async stationTaskUpdated(client: Socket, data: Message): Promise<Message> {
     this.emit(data.message['station'].stationName, 'stationTaskUpdated', data)
+    return data;
+  }
+
+  @SubscribeMessage('stationTaskMoved')
+  async stationTaskMoved(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationTaskMoved', data)
     return data;
   }
   // -- События для Tasks

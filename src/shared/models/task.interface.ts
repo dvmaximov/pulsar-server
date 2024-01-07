@@ -16,25 +16,209 @@ export interface ActionValue {
 export interface ActionType {
   id: number;
   name: string;
-  label1: ActionValue;
-  label2: ActionValue;
-  label3: ActionValue;
+  label1?: ActionValue;
+  label2?: ActionValue;
+  label3?: ActionValue;
 }
 
 export interface TaskAction {
-  id: number;
+  id?: string | number;
   type: ActionType;
   value1: number;
   value2: number;
   value3: number;
 }
 
-
 export interface Task {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   actions: TaskAction[];
 }
 
 export type Tasks = Task[];
+export type TaskActions = TaskAction[];
+
+export const actionValues = {
+  [ACTION.ACTION_AZIMUTH]: {
+    id: ACTION.ACTION_AZIMUTH,
+    name: 'установка азимута',
+    value1: {
+      label: 'азимут (град)',
+      max: 360,
+      min: 0,
+      step: 0.1,
+    },
+    value2: {
+      label: '',
+      max: 0,
+      min: 0,
+      step: 1,
+    },
+    value3: {
+      label: '',
+      max: 0,
+      min: 0,
+      step: 1,
+    },
+  },
+  [ACTION.ACTION_SLOPE]:{
+    id: ACTION.ACTION_SLOPE,
+    name: 'установка наклона',
+    value1: {
+      label: 'наклон (град)',
+      max: 10,
+      min: 0,
+      step: 1,
+    },
+    value2: {
+      label: '',
+      max: 0,
+      min: 0,
+      step: 1,
+    },
+    value3: {
+      label: '',
+      max: 0,
+      min: 0,
+      step: 1,
+    },
+  },
+  [ACTION.ACTION_WAIT]:{
+    id: ACTION.ACTION_WAIT,
+    name: 'ожидание',
+    value1: {
+      label: 'время (сек)',
+      max: 10000,
+      min: 0,
+      step: 1,
+    },
+    value2: {
+      label: '',
+      max: 0,
+      min: 0,
+      step: 1,
+    },
+    value3: {
+      label: '',
+      max: 0,
+      min: 0,
+      step: 1,
+    },
+  },
+  [ACTION.ACTION_SPARK]:{
+    id: ACTION.ACTION_SPARK,
+    name: 'разряд',
+    value1: {
+      label: 'количество',
+      max: 1000,
+      min: 1,
+      step: 1,
+    },
+    value2: {
+      label: 'время (сек)',
+      max: 10000,
+      min: 0,
+      step: 0.1,
+    },
+
+    value3: {
+      label: 'интервал (сек)',
+      max: 1000,
+      min: 0,
+      step: 0.1,
+    },
+  },  
+};
+
+// export const actionValues = [
+//   {
+//     id: ACTION.ACTION_AZIMUTH,
+//     name: 'установка азимута',
+//     value1: {
+//       label: 'азимут (град)',
+//       max: 360,
+//       min: 0,
+//       step: 0.1,
+//     },
+//     value2: {
+//       label: '',
+//       max: 0,
+//       min: 0,
+//       step: 1,
+//     },
+//     value3: {
+//       label: '',
+//       max: 0,
+//       min: 0,
+//       step: 1,
+//     },
+//   },
+//   {
+//     id: ACTION.ACTION_SLOPE,
+//     name: 'установка наклона',
+//     value1: {
+//       label: 'наклон (град)',
+//       max: 10,
+//       min: 0,
+//       step: 1,
+//     },
+//     value2: {
+//       label: '',
+//       max: 0,
+//       min: 0,
+//       step: 1,
+//     },
+//     value3: {
+//       label: '',
+//       max: 0,
+//       min: 0,
+//       step: 1,
+//     },
+//   },
+//   {
+//     id: ACTION.ACTION_WAIT,
+//     name: 'ожидание',
+//     value1: {
+//       label: 'время (сек)',
+//       max: 10000,
+//       min: 0,
+//       step: 1,
+//     },
+//     value2: {
+//       label: '',
+//       max: 0,
+//       min: 0,
+//       step: 1,
+//     },
+//     value3: {
+//       label: '',
+//       max: 0,
+//       min: 0,
+//       step: 1,
+//     },
+//   },
+//   {
+//     id: ACTION.ACTION_SPARK,
+//     name: 'разряд',
+//     value1: {
+//       label: 'количество',
+//       max: 1000,
+//       min: 1,
+//       step: 1,
+//     },
+//     value2: {
+//       label: 'время (сек)',
+//       max: 10000,
+//       min: 0,
+//       step: 0.1,
+//     },
+
+//     value3: {
+//       label: 'интервал (сек)',
+//       max: 1000,
+//       min: 0,
+//       step: 0.1,
+//     },
+//   },
+// ];
