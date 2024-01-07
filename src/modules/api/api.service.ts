@@ -67,6 +67,16 @@ export class ApiService {
         `,
       )
       .run();
+    this.db
+      .prepare(
+        `
+        CREATE TABLE [programs] (
+          [id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+          [content] TEXT  NULL
+          )
+        `,
+      )
+      .run();
   }
 
   async fillDataV1(): Promise<void> {
@@ -128,10 +138,8 @@ export class ApiService {
       fields.push(key);
       values.push(value);
     }
-    // const fieldsStr = ''' + fields.join('', '') + ''';
-    // const valuesStr = ''' + values.join('','') + ''';
-    const fieldsStr = '';
-    const valuesStr = '';
+    const fieldsStr = "'" + fields.join("','") + "'";
+    const valuesStr = "'" + values.join("','") + "'";
     answer.result = this.db
       .prepare(
         `

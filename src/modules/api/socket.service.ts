@@ -63,11 +63,24 @@ export class SocketService implements OnGatewayDisconnect {
     return data;
   }
 
+  @SubscribeMessage('updateStationSetting')
+  async updateStationSetting(client: Socket, data: Message) {
+    this.emit(data.receiver.name, 'updateStationSetting', data)
+  }
+
   @SubscribeMessage('stationSettings')
   async stationSettings(client: Socket, data: Message): Promise<Message> {
     this.emit(data.message['station'].stationName, 'stationSettings', data)
     return data;
   }
+
+  @SubscribeMessage('stationSettingUpdated')
+  async stationSettingUpdated(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationSettingUpdated', data)
+    return data;
+  }
+
+  // События для Tasks
 
   @SubscribeMessage('getStationTasks')
   async getStationTasks(client: Socket, data: Message): Promise<Message> {
@@ -75,11 +88,34 @@ export class SocketService implements OnGatewayDisconnect {
     return data;
   }
 
+  @SubscribeMessage('deleteStationTask')
+  async deleteStationTask(client: Socket, data: Message) {
+    this.emit(data.receiver.name, 'deleteStationTask', data)
+  }
+
+  @SubscribeMessage('updateStationTask')
+  async updateStationTask(client: Socket, data: Message) {
+    this.emit(data.receiver.name, 'updateStationTask', data)
+  }
+
   @SubscribeMessage('stationTasks')
-  async stationTasks(client: Socket, data: Message): Promise<Message> {
+  async stationTasks(client: Socket, data: Message) {
     this.emit(data.message['station'].stationName, 'stationTasks', data)
+  }
+
+  @SubscribeMessage('stationTaskDeleted')
+  async stationTaskDeleted(client: Socket, data: Message) {
+    this.emit(data.message['station'].stationName, 'stationTaskDeleted', data)
+  }  
+
+  @SubscribeMessage('stationTaskUpdated')
+  async stationTaskUpdated(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationTaskUpdated', data)
     return data;
   }
+  // -- События для Tasks
+
+  // События для Works
 
   @SubscribeMessage('getStationWorks')
   async getStationWorks(client: Socket, data: Message): Promise<Message> {
@@ -87,11 +123,34 @@ export class SocketService implements OnGatewayDisconnect {
     return data;
   }
 
+  @SubscribeMessage('deleteStationWorks')
+  async deleteStationWorks(client: Socket, data: Message) {
+    this.emit(data.receiver.name, 'deleteStationWorks', data)
+  }
+
+  @SubscribeMessage('createStationWorks')
+  async createStationWorks(client: Socket, data: Message) {
+    this.emit(data.receiver.name, 'createStationWorks', data)
+  }
+
   @SubscribeMessage('stationWorks')
   async stationWorks(client: Socket, data: Message): Promise<Message> {
     this.emit(data.message['station'].stationName, 'stationWorks', data)
     return data;
   }
+
+  @SubscribeMessage('stationWorksDeleted')
+  async stationWorksDeleted(client: Socket, data: Message): Promise<Message> {
+    this.emit(data.message['station'].stationName, 'stationWorksDeleted', data)
+    return data;
+  }
+
+  @SubscribeMessage('stationWorksCreated')
+  async StationWorksCreated(client: Socket, data: Message) {
+    this.emit(data.message['station'].stationName, 'StationWorksCreated', data)
+  }
+  // -- События для Works
+
 
   async handleDisconnect(socket: Socket): Promise<void> {
     this.workstationService.removeWorkstation(socket.id);

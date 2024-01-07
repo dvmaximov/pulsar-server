@@ -10,6 +10,7 @@ import { UsersModule } from './modules/users/users.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { CryptModule } from './modules/crypt/crypt.module';
 import { WorkstationsModule } from './modules/workstations/workstations.module';
+import { ProgramsModule } from './modules/programs/programs.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { WorkstationsModule } from './modules/workstations/workstations.module';
     SettingsModule,
     CryptModule,
     WorkstationsModule,
+    ProgramsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
