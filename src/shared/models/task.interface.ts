@@ -34,8 +34,17 @@ export interface Task {
   name: string;
   description: string;
   actions: TaskAction[];
+  category?: string;
 }
 
+
+export interface Category {
+  id?: number;
+  name: string;
+  isDefault?: string;
+}
+
+export type Categories = Category[];
 export type Tasks = Task[];
 export type TaskActions = TaskAction[];
 

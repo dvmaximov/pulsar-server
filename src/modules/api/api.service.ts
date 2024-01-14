@@ -5,6 +5,7 @@ import * as Database from 'better-sqlite3';
 
 import { ApiResult, initResult } from '../../shared/models/api.interface';
 import { Settings } from 'src/shared/models/settings.interface';
+import { Categories } from 'src/shared/models/task.interface';
 
 @Injectable()
 export class ApiService {
@@ -37,6 +38,53 @@ export class ApiService {
     } catch (e) {
       await this.createV1();
       await this.fillDataV1();
+    }
+    try {
+      const categories: Categories = this.db
+        .prepare('SELECT * FROM categories')
+        .all() as Settings;
+      if (categories.length === 0) {
+        this.fillCategories();
+      }
+    } catch (e) {
+      await this.createCategories();
+      await this.fillCategories();
+    }
+  }
+
+  async createCategories(): Promise<void> {
+    this.db
+    .prepare(
+      `
+      CREATE TABLE [categories] (
+        [id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+        [name] VARCHAR(100)  UNIQUE NOT NULL,
+        [isDefault] BOOLEAN DEFAULT 'false' NOT NULL
+        )
+      `,
+    )
+    .run();
+  }
+
+  async fillCategories(): Promise<void> {
+    const categories = [
+      {
+        name: 'без категории',
+        isDefault: 'true',
+      },
+    ];
+
+    for (const category of categories) {
+      this.db
+        .prepare(
+          `
+          INSERT INTO categories (name, isDefault) VALUES (?,?)
+          `,
+        )
+        .run(
+          category.name,
+          category.isDefault,
+        );
     }
   }
 

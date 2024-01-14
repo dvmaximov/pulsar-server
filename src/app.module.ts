@@ -11,6 +11,7 @@ import { SettingsModule } from './modules/settings/settings.module';
 import { CryptModule } from './modules/crypt/crypt.module';
 import { WorkstationsModule } from './modules/workstations/workstations.module';
 import { ProgramsModule } from './modules/programs/programs.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProgramsModule } from './modules/programs/programs.module';
     CryptModule,
     WorkstationsModule,
     ProgramsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
