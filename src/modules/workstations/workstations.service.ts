@@ -25,6 +25,7 @@ export class WorkstationsService {
     socketId: string,
     stationType: StationType,
   ): Workstation {
+
     const newWorkstation: Workstation = {
       name,
       stationType,
