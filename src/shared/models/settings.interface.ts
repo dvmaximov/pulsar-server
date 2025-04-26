@@ -9,3 +9,8 @@ export interface Setting {
 }
 
 export type Settings = Setting[];
+
+export enum BallPosition {
+  BALL_LEFT,
+  BALL_RIGHT,
+}

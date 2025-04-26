@@ -16,7 +16,10 @@ export class ProgramsService {
   }
 
   async insert(record: Program): Promise<ApiResult> {
-    return await this.api.insert('programs', record);
+    delete record["id"];
+    const res =  await this.api.insert('programs', record);
+    console.log("result ", res)
+    return res;
   }
 
   async update(record: Program): Promise<ApiResult> {

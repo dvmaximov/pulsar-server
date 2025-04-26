@@ -1,0 +1,1 @@
+import{R as t}from"./index.39e089c8.js";import{u as o}from"./use-quasar.dac27476.js";const a=t("message",()=>{const s=o();return{error:e=>{s.notify({type:"negative",message:e,timeout:2e3})},success:e=>{s.notify({type:"positive",message:e,timeout:2e3})}}});export{a as u};

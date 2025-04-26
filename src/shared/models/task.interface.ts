@@ -33,10 +33,10 @@ export interface Task {
   id?: number;
   name: string;
   description: string;
+  ball: number;
   actions: TaskAction[];
   category?: string;
 }
-
 
 export interface Category {
   id?: number;
@@ -71,7 +71,7 @@ export const actionValues = {
       step: 1,
     },
   },
-  [ACTION.ACTION_SLOPE]:{
+  [ACTION.ACTION_SLOPE]: {
     id: ACTION.ACTION_SLOPE,
     name: 'установка наклона',
     value1: {
@@ -93,7 +93,7 @@ export const actionValues = {
       step: 1,
     },
   },
-  [ACTION.ACTION_WAIT]:{
+  [ACTION.ACTION_WAIT]: {
     id: ACTION.ACTION_WAIT,
     name: 'ожидание',
     value1: {
@@ -115,7 +115,7 @@ export const actionValues = {
       step: 1,
     },
   },
-  [ACTION.ACTION_SPARK]:{
+  [ACTION.ACTION_SPARK]: {
     id: ACTION.ACTION_SPARK,
     name: 'разряд',
     value1: {
@@ -137,7 +137,7 @@ export const actionValues = {
       min: 0,
       step: 0.1,
     },
-  },  
+  },
 };
 
 // export const actionValues = [
